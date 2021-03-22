@@ -42,16 +42,6 @@ class Bot:
             like_count += int(likes[i])
         print("Likes: {}".format(str(like_count)))
 
-        '''comm_count = 0
-        ids = re.findall('"shortcode":"([.]+)",',r)
-        print(str(ids))
-        for i in range(len(ids)):
-            p = requests.get("{}p/{}/".format(self.base_url, ids[i]), headers=headers).text
-            c = int(re.search('"edge_media_to_parent_comment":{"count":([0-9]+)',r).group(1))
-            comm_count += c
-            print(str(c))
-        print("Comments: {}".format(str(comm_count)))'''
-
 
 if __name__ == "__main__":
     username = input("Username: ")
