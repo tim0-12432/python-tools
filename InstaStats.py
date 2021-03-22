@@ -12,15 +12,13 @@ class Bot:
         self.user = username
         self.base_url = "https://www.instagram.com/"
 
-    def getStats(self):
+    def get_stats(self):
         url = "{}{}/".format(self.base_url, self.user)
         print(self.user)
 
         headers = {"User-Agent":"Mozilla/5.0 (X11; Linux armv7l) AppleWebKit/537.36 (KHTML, like Gecko) Raspbian Chromium/78.0.3904.108 Chrome/78.0.3904.108 Safari/537.36"}
         r = requests.get(url, headers=headers).text
 
-        #name = str(re.search('"fullname":"[]"',r).group(1))
-        #print(name)
         print(url)
 
         following = int(re.search('"edge_follow":{"count":([0-9]+)}',r).group(1))
@@ -47,4 +45,4 @@ if __name__ == "__main__":
     username = input("Username: ")
     print("\n\n")
     bot = Bot(username)
-    bot.getStats()
+    bot.get_stats()
