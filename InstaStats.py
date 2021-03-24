@@ -23,7 +23,7 @@ class Bot:
 
         following = int(re.search('"edge_follow":{"count":([0-9]+)}',r).group(1))
         followers = int(re.search('"edge_followed_by":{"count":([0-9]+)}',r).group(1))
-        print("Following: {}\nFollowers: {}\n".format(str(following), str(followers)))
+        print("Following: {}\nFollowers: {}\t{}\n".format(str(following), str(followers), str(round(following / followers, 2)) + " following/followers"))
 
         uploads = int(re.search('"edge_owner_to_timeline_media":{"count":([0-9]+)',r).group(1))
         print("Uploads: {}".format(str(uploads)))
@@ -32,13 +32,13 @@ class Bot:
         comm_count = 0
         for i in range(len(comments)):
             comm_count += int(comments[i])
-        print("Comments: {}".format(str(comm_count)))
+        print("Comments: {}\t{}".format(str(comm_count), str(round(comm_count / uploads, 2)) + " comments/uploads"))
 
         likes = re.findall('"edge_liked_by":{"count":([0-9]+)}',r)
         like_count = 0
         for i in range(len(likes)):
             like_count += int(likes[i])
-        print("Likes: {}".format(str(like_count)))
+        print("Likes: {}\t{}".format(str(like_count), str(round(like_count / uploads, 2)) + " likes/uploads"))
 
 
 if __name__ == "__main__":
