@@ -18,43 +18,39 @@ def translateString(command):
         for num in TELEPHONE_FIELD.keys():
             if char in TELEPHONE_FIELD[num]:
                 number += num
-    print(number)
+    return number
+
 
 def translateNumeric(command):
     possible_chars = []
     for num in command:
-        possible_chars.append(TELEPHONE_FIELD[num])
-    print(possible_chars)
-    possible_words = calc_combinations(possible_chars, [[]], 1)
+        for char in TELEPHONE_FIELD[num]:
+            possible_chars.append(char)
+    charsAsString = ""
+    for char in possible_chars:
+        charsAsString += char
+    possible_words = permutations(charsAsString)
     print(possible_words)
 
-def calc_combinations(charset, words, length):
-    if charset == []:
-        return words
-    else:
-        charset_length = len(charset[0])
-        words_length = len(words)
-        for i in range(length - 1):
-            for word in range(words_length):
-                words.append(words[word])
-        if words_length < charset_length:
-            for y in range(charset_length - words_length):
-                words.append([])
-        for char in range(charset_length):
-            for pos in range(length):
-                print(get_array_position(pos, char, length), words[get_array_position(pos, char, length)])
-                words[get_array_position(pos, char, length)].append(charset[0][char])
-        charset.pop(0)
-        return calc_combinations(charset, words, charset_length)
-            
-def get_array_position(pos1, pos2, length):
-    return ((pos1 * pos2) * length) + pos1
+
+def permutations(remaining, candidate="", arr=[]):
+    if len(arr) == 10:
+        return arr
+
+    if len(remaining) == 0:
+        arr.append(candidate)
+
+    for i in range(len(remaining)):
+        newCandidate = candidate + remaining[i]
+        newRemaining = remaining[0:i] + remaining[i+1:]
+        permutations(newRemaining, newCandidate, arr)
 
 
 if __name__ == '__main__':
     print("What should be \"translated\"?")
     command = input()
     if command.isnumeric():
-        translateNumeric(command)
+        res = translateNumeric(command)
     else:
-        translateString(command)
+        res = translateString(command)
+    print(res)
