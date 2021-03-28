@@ -1,3 +1,4 @@
+import enchant
 
 TELEPHONE_FIELD = {
     "1": [" "],
@@ -12,6 +13,9 @@ TELEPHONE_FIELD = {
     "0": ["-"]
 }
 
+LANGUAGE = "en_GB"
+
+
 def translateString(command):
     number = ""
     for char in command:
@@ -22,28 +26,59 @@ def translateString(command):
 
 
 def translateNumeric(command):
+    words = []
     possible_chars = []
     for num in command:
-        for char in TELEPHONE_FIELD[num]:
-            possible_chars.append(char)
-    charsAsString = ""
-    for char in possible_chars:
-        charsAsString += char
-    possible_words = permutations(charsAsString)
-    print(possible_words)
+        possible_chars.append(TELEPHONE_FIELD[num])
+    possible_words = permutations(possible_chars)
+    for word in possible_words:
+        if translateString(word) == command:
+            if check_word(word):
+                words.append(word)
+    return words
 
 
-def permutations(remaining, candidate="", arr=[]):
-    if len(arr) == 10:
-        return arr
+def permutations(text):
+    partial = []
+    partial.append(text[0][0])
 
-    if len(remaining) == 0:
-        arr.append(candidate)
+    for i in range(1, len(text)):
+        for j in reversed(range(len(partial))):
+            curr = partial.pop(j)
 
-    for i in range(len(remaining)):
-        newCandidate = candidate + remaining[i]
-        newRemaining = remaining[0:i] + remaining[i+1:]
-        permutations(newRemaining, newCandidate, arr)
+            for k in range(len(curr) + 1):
+                partial.append(curr[:k] + text[i][0] + curr[k:])
+
+    partial1 = []
+    partial1.append(text[0][1])
+
+    for i in range(1, len(text)):
+        for j in reversed(range(len(partial1))):
+            curr = partial1.pop(j)
+
+            for k in range(len(curr) + 1):
+                partial1.append(curr[:k] + text[i][0] + curr[k:])
+
+    partial2 = []
+    partial2.append(text[0][2])
+
+    for i in range(1, len(text)):
+        for j in reversed(range(len(partial2))):
+            curr = partial2.pop(j)
+
+            for k in range(len(curr) + 1):
+                partial2.append(curr[:k] + text[i][0] + curr[k:])
+
+    for p in partial1:
+        partial.append(p)
+    for p in partial2:
+        partial.append(p)
+    return partial
+
+
+def check_word(word):
+    dictionary = enchant.Dict(LANGUAGE)
+    return dictionary.check(word)
 
 
 if __name__ == '__main__':
