@@ -1,0 +1,17 @@
+name: Linting
+
+on: [push, pull_request]
+
+jobs:
+  python-lint:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Git Checkout
+      uses: actions/checkout@v2
+
+    - name: Linting
+      uses: alexanderdamiani/pylinter@v1.1.2
+      with:
+        python-root: '.'
+        flake8-flags: '--count --show-source --statistics'
