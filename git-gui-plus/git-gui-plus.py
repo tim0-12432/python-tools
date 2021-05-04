@@ -1,48 +1,82 @@
 import sys
+import os
 
 from subprocess import Popen, PIPE
 
-from PySide6.QtWidgets import *
-from PySide6.QtGui import *
+try:
+    import tkinter as tk
+    from tkinter import filedialog
+except ImportError:
+    import Tkinter as tk
+    from Tkinter import filedialog
+from PIL import Image, ImageTk
 
-# https://build-system.fman.io/pyqt5-tutorial
+git_path = os.getcwd()
+window = tk.Tk()
 
 def execute_console_command(command):
     execute = Popen(command.split(" "), stdout=PIPE)
     return execute.communicate()[0]
 
-def file_dialog(directory='', forOpen=True, fmt='', isFolder=False):
-    return QFileDialog.getExistingDirectory(self, "Select directory")
+def browse_button():
+    window.destroy()
+    git_path = filedialog.askdirectory()
+    window.__init__()
+    display_ui(f"Directory changed to: {git_path}")
 
-class Ui_main(QTabWidget):
-    def __init__(self):
-        super().__init__()
-        self.initialize()
+def refresh(message):
+    window.destroy()
+    window.__init__()
+    display_ui(message)
 
-    def initialize(self):
-        # TABS
-        self.main_tab = QWidget()
-        self.config_tab = QWidget()
-        self.addTab(self.main_tab, "Main")
-        self.addTab(self.config_tab, "Configuration")
+def status():
+    message = execute_console_command("git status")
+    refresh(message)
 
-        # TAB MAIN
-        self.dir_box = QHBoxLayout()
-        self.dir_box.addStretch(1)
-        self.dir_btn = QPushButton("Select", self)
-        self.dir_box.addWidget(self.dir_btn)
+def add_all():
+    execute_console_command("git add .")
+    refresh("Added all changes to the commit!")
 
-        self.main_vertical = QVBoxLayout()
-        self.main_vertical.addStretch(1)
-        self.main_vertical.addLayout(self.dir_box)
+def display_ui(message):
+    window.title("Git GUI+")
+    window.geometry("300x300")
+    window.resizable(False, True)
+    window.iconbitmap(f"{os.path.abspath(os.path.dirname(__file__))}/resources/icon-128.ico")
+
+    frame1 = tk.Frame(window)
+    img  = Image.open(f"{os.path.abspath(os.path.dirname(__file__))}/resources/icon-512.ico")
+    img = img.resize((30, 30), Image.ANTIALIAS)
+    #logo = ImageTk.PhotoImage(img)
+    #logo_label = tk.Label(frame1, image=logo)
+    #logo_label.pack(side=tk.LEFT)
+    path_label = tk.Label(frame1, text=git_path, width=35)
+    path_label.pack(side=tk.LEFT, expand=True)
+    btn_browse = tk.Button(frame1, text="Browse", command=browse_button)
+    btn_browse.pack(side=tk.RIGHT)
+    frame1.pack(fill=tk.X)
+
+    btn_status = tk.Button(window, text="Status", command=status)
+    btn_status.pack(fill=tk.X)
+
+    btn_add_all = tk.Button(window, text="Add all", command=add_all)
+    btn_add_all.pack(fill=tk.X)
+
+    frame2 = tk.Frame(window)
+    commit_message_entry = tk.Entry(frame2, width=40)
+    commit_message_entry.insert(0, "Update✨")
+    commit_message_entry.pack(side=tk.LEFT, expand=True)
+    btn_commit = tk.Button(frame2, text="Commit")
+    btn_commit.pack(side=tk.RIGHT)
+    frame2.pack(fill=tk.X)
+
+    btn_push = tk.Button(window, text="Push")
+    btn_push.pack(fill=tk.X)
+
+    console_text = tk.Label(bg="#fff", text=message, justify=tk.LEFT, font="Consolas 8", anchor="nw")
+    console_text.pack(fill=tk.BOTH, expand=True)
+
+    window.mainloop()
 
 
-        # WINDOW
-        self.setGeometry(50, 50, 500, 800)
-        self.setWindowTitle("Git GUI+")
-        #self.setWindowIcon(QIcon(""))
-        self.show()
-
-app = QApplication(sys.argv)
-gui = Ui_main()
-sys.exit(app.exec_())
+if __name__ == '__main__':
+    display_ui("Welcome to Git GUI+!")
