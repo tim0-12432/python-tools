@@ -43,8 +43,8 @@ def commit():
     refresh(message)
 
 def push():
-    message = execute_console_command("git push")
-    refresh(message)
+    execute_console_command("git push")
+    refresh("Pushed all commits to remote repository!")
 
 def display_ui(message):
     window.title("Git GUI+")
