@@ -13,6 +13,7 @@ from PIL import Image, ImageTk
 
 git_path = os.getcwd()
 window = tk.Tk()
+commit_message = tk.StringVar()
 
 def execute_console_command(command):
     execute = Popen(command.split(" "), stdout=PIPE)
@@ -37,6 +38,10 @@ def add_all():
     execute_console_command("git add .")
     refresh("Added all changes to the commit!")
 
+def commit():
+    message = execute_console_command(f"git commit -m {commit_message.get()}")
+    refresh(message)
+
 def display_ui(message):
     window.title("Git GUI+")
     window.geometry("300x300")
@@ -49,7 +54,7 @@ def display_ui(message):
     #logo = ImageTk.PhotoImage(img)
     #logo_label = tk.Label(frame1, image=logo)
     #logo_label.pack(side=tk.LEFT)
-    path_label = tk.Label(frame1, text=git_path, width=35)
+    path_label = tk.Label(frame1, text=git_path, width=33)
     path_label.pack(side=tk.LEFT, expand=True)
     btn_browse = tk.Button(frame1, text="Browse", command=browse_button)
     btn_browse.pack(side=tk.RIGHT)
@@ -62,10 +67,10 @@ def display_ui(message):
     btn_add_all.pack(fill=tk.X)
 
     frame2 = tk.Frame(window)
-    commit_message_entry = tk.Entry(frame2, width=40)
+    commit_message_entry = tk.Entry(frame2, width=40, textvariable=commit_message)
     commit_message_entry.insert(0, "Update✨")
     commit_message_entry.pack(side=tk.LEFT, expand=True)
-    btn_commit = tk.Button(frame2, text="Commit")
+    btn_commit = tk.Button(frame2, text="Commit", command=commit)
     btn_commit.pack(side=tk.RIGHT)
     frame2.pack(fill=tk.X)
 
