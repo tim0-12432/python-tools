@@ -42,6 +42,10 @@ def commit():
     message = execute_console_command(f"git commit -m {commit_message.get()}")
     refresh(message)
 
+def push():
+    message = execute_console_command("git push")
+    refresh(message)
+
 def display_ui(message):
     window.title("Git GUI+")
     window.geometry("300x300")
@@ -74,7 +78,7 @@ def display_ui(message):
     btn_commit.pack(side=tk.RIGHT)
     frame2.pack(fill=tk.X)
 
-    btn_push = tk.Button(window, text="Push")
+    btn_push = tk.Button(window, text="Push", command=push)
     btn_push.pack(fill=tk.X)
 
     console_text = tk.Label(bg="#fff", text=message, justify=tk.LEFT, font="Consolas 8", anchor="nw")
