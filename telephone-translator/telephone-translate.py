@@ -15,6 +15,7 @@ TELEPHONE_FIELD = {
 
 LANGUAGE = "en_GB"
 
+characters = {1: "", 2:"abc", 3:"def",4 :"ghi", 5:"jkl", 6:"mno", 7:"pqrs", 8:"tuv", 9:"wxyz", 0: "-"}
 
 def translateString(command):
     number = ""
@@ -27,53 +28,24 @@ def translateString(command):
 
 def translateNumeric(command):
     words = []
-    possible_chars = []
-    for num in command:
-        possible_chars.append(TELEPHONE_FIELD[num])
-    possible_words = permutations(possible_chars)
+    if len(command) == 0:
+        return "Type in a number!"
+    possible_words = []
+    permutations(command, characters, possible_words)
     for word in possible_words:
         if translateString(word) == command:
+            print(f"Validating ... {possible_words.index(word) + 1} from {len(possible_words)} ...")
             if check_word(word):
                 words.append(word)
     return words
 
 
-def permutations(text):
-    partial = []
-    partial.append(text[0][0])
-
-    for i in range(1, len(text)):
-        for j in reversed(range(len(partial))):
-            curr = partial.pop(j)
-
-            for k in range(len(curr) + 1):
-                partial.append(curr[:k] + text[i][0] + curr[k:])
-
-    partial1 = []
-    partial1.append(text[0][1])
-
-    for i in range(1, len(text)):
-        for j in reversed(range(len(partial1))):
-            curr = partial1.pop(j)
-
-            for k in range(len(curr) + 1):
-                partial1.append(curr[:k] + text[i][0] + curr[k:])
-
-    partial2 = []
-    partial2.append(text[0][2])
-
-    for i in range(1, len(text)):
-        for j in reversed(range(len(partial2))):
-            curr = partial2.pop(j)
-
-            for k in range(len(curr) + 1):
-                partial2.append(curr[:k] + text[i][0] + curr[k:])
-
-    for p in partial1:
-        partial.append(p)
-    for p in partial2:
-        partial.append(p)
-    return partial
+def permutations(digits, chars, result, curr_string="", curr_level=0):
+    if curr_level == len(digits):
+        result.append(curr_string)
+        return
+    for i in chars[int(digits[curr_level])]:
+        permutations(digits, chars, result, curr_string + i, curr_level + 1)
 
 
 def check_word(word):
