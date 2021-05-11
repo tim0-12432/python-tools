@@ -15,7 +15,7 @@ TELEPHONE_FIELD = {
 
 LANGUAGE = "en_GB"
 
-characters = {1: "", 2:"abc", 3:"def",4 :"ghi", 5:"jkl", 6:"mno", 7:"pqrs", 8:"tuv", 9:"wxyz", 0: "-"}
+CHARACTERS = {1: "", 2 :"abc", 3: "def",4 : "ghi", 5: "jkl", 6: "mno", 7: "pqrs", 8: "tuv", 9: "wxyz", 0: "-"}
 
 def translateString(command):
     number = ""
@@ -31,10 +31,10 @@ def translateNumeric(command):
     if len(command) == 0:
         return "Type in a number!"
     possible_words = []
-    permutations(command, characters, possible_words)
+    permutations(command, CHARACTERS, possible_words)
     for word in possible_words:
         if translateString(word) == command:
-            print(f"Validating ... {possible_words.index(word) + 1} from {len(possible_words)} ...")
+            print(f"Validating ... {possible_words.index(word) + 1} from {len(possible_words)} ... {round(((possible_words.index(word) + 1)/len(possible_words))*100, 2)}%")
             if check_word(word):
                 words.append(word)
     return words
@@ -56,8 +56,9 @@ def check_word(word):
 if __name__ == '__main__':
     print("What should be \"translated\"?")
     command = input()
+    print("-" * 30)
     if command.isnumeric():
         res = translateNumeric(command)
     else:
         res = translateString(command)
-    print(res)
+    print("-" * 30 + "\nResult\n" + "-" * 30 + "\n" + str(res))
