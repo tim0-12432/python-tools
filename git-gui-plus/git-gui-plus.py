@@ -13,7 +13,6 @@ from PIL import Image, ImageTk
 
 git_path = os.getcwd()
 window = tk.Tk()
-commit_message = tk.StringVar()
 
 def execute_console_command(command):
     execute = Popen(command.split(" "), stdout=PIPE)
@@ -38,9 +37,9 @@ def add_all():
     execute_console_command("git add .")
     refresh("Added all changes to the commit!")
 
-def commit():
-    message = execute_console_command(f"git commit -m {commit_message.get()}")
-    refresh(message)
+def commit(commit_message):
+    cmd = Popen(["git", "commit", "-m", "\"commit_message\""], stdout=PIPE)
+    refresh(cmd.communicate()[0])
 
 def push():
     execute_console_command("git push")
@@ -53,8 +52,8 @@ def display_ui(message):
     window.iconbitmap(f"{os.path.abspath(os.path.dirname(__file__))}/resources/icon-128.ico")
 
     frame1 = tk.Frame(window)
-    img  = Image.open(f"{os.path.abspath(os.path.dirname(__file__))}/resources/icon-512.ico")
-    img = img.resize((30, 30), Image.ANTIALIAS)
+    #img  = Image.open(f"{os.path.abspath(os.path.dirname(__file__))}/resources/icon-512.ico")
+    #img = img.resize((30, 30), Image.ANTIALIAS)
     #logo = ImageTk.PhotoImage(img)
     #logo_label = tk.Label(frame1, image=logo)
     #logo_label.pack(side=tk.LEFT)
@@ -71,10 +70,10 @@ def display_ui(message):
     btn_add_all.pack(fill=tk.X)
 
     frame2 = tk.Frame(window)
-    commit_message_entry = tk.Entry(frame2, width=40, textvariable=commit_message)
+    commit_message_entry = tk.Entry(frame2, width=40)
     commit_message_entry.insert(0, "Update✨")
     commit_message_entry.pack(side=tk.LEFT, expand=True)
-    btn_commit = tk.Button(frame2, text="Commit", command=commit)
+    btn_commit = tk.Button(frame2, text="Commit", command=lambda:commit(commit_message_entry.get()))
     btn_commit.pack(side=tk.RIGHT)
     frame2.pack(fill=tk.X)
 
