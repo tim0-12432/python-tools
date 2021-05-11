@@ -38,7 +38,7 @@ def add_all():
     refresh("Added all changes to the commit!")
 
 def commit(commit_message):
-    cmd = Popen(["git", "commit", "-m", "\"commit_message\""], stdout=PIPE)
+    cmd = Popen(["git", "commit", "-m", f"\"{commit_message}\""], stdout=PIPE)
     refresh(cmd.communicate()[0])
 
 def push():
