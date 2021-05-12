@@ -56,7 +56,7 @@ def display_ui(message):
     #img = img.resize((30, 30), Image.ANTIALIAS)
     #logo = ImageTk.PhotoImage(img)
     #logo_label = tk.Label(frame1, image=logo)
-    #logo_label.pack(side=tk.LEFT)
+    #logo_label.pack(side=tk.LEFT) 
     path_label = tk.Label(frame1, text=git_path, width=33)
     path_label.pack(side=tk.LEFT, expand=True)
     btn_browse = tk.Button(frame1, text="Browse", command=browse_button)
