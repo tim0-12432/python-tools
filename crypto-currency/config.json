@@ -1,0 +1,17 @@
+{
+    "currency": "EUR",
+    "metric": "Close",
+    "crypto": [
+        "BTC",
+        "ETH",
+        "LTC",
+        "XRP",
+        "DASH",
+        "SC"
+    ],
+    "start_date": {
+        "year": 2018,
+        "month": 1,
+        "day": 1
+    }
+}
