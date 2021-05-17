@@ -62,7 +62,6 @@ def plot_worths():
     figure = matplotlib.figure.Figure(figsize=(5, 4), dpi=100)
     axes = figure.subplots()
     bars = sns.barplot(x="currency", y="value", data=data, palette="Blues_d", ax=axes)
-    print(data)
     for crypto_index in range(len(config.CRYPTO)):
         bars.text(crypto_index, data["value"][crypto_index], str(round(data["value"][crypto_index], 3)), color="white", ha="center")
     return figure
