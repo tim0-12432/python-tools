@@ -1,4 +1,3 @@
-import pandas as pd
 import pandas_datareader as pdr
 import datetime
 import cfgparser as config
