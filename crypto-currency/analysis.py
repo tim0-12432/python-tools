@@ -1,9 +1,13 @@
+import os
+import tensorflow.compat.v1 as tf
 import matplotlib
 import matplotlib.pyplot as plt
 import seaborn as sns
 import mplfinance
 import cfgparser as config
 import fetcher
+
+tf.disable_v2_behavior()
 
 def show_plot_graph(crypto):
     plt.style.use("dark_background")
@@ -67,3 +71,10 @@ def plot_worths():
     for crypto_index in range(len(config.CRYPTO)):
         bars.text(crypto_index, data["value"][crypto_index], str(round(data["value"][crypto_index], 3)), color="white", ha="center")
     return figure
+
+def plot_prediction():
+    dir = f"{os.path.dirname(os.path.realpath(__file__))}/ai/"
+    saver = tf.train.import_meta_graph(f"{dir}predictor.meta")
+    with tf.Session() as net:
+        saver.restore(net, f"{dir}predictor.data-00000-of-00001")
+        print(net)
