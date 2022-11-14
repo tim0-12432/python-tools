@@ -6,7 +6,7 @@
     displays the German school holidays to compare the different time periods
 - ⚠ **[instagram-stats](./instagram-stats.py)**:
     displays certain statistics for one instagram profile, e.g. follower, uploads, likes and comments
-- ⚠ **[crypto-currency](.\crypto-currency)**:
+- ⚠ **[crypto-currency](./crypto-currency)**:
     displays and analyzes statistics for some crypto currencies
 - 🚫 **[git-gui-plus](./git-gui-plus/git-gui-plus.py)**:
     a simple tk interface for git
