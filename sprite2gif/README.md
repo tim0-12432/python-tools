@@ -18,6 +18,10 @@ pip install -r requirements.txt
 python -m sprite2gif -a 3 -o 1,0,1,2 input-sprites.png output.gif
 ```
 
+```bash
+python -m sprite2gif -a 3 -o 1,0,1,2 ./input ./output
+```
+
 ### Options
 
 ```bash
