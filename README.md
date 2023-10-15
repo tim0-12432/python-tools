@@ -18,6 +18,8 @@
     scrapes google images for a search term for certain purposes such as building an image database for training your ai
 - **[sprite2gif](./sprite2gif)**:
     turns a spritesheet into a animated gif
+- **[exif license remover](./exif-license-remover.py)**:
+    removes the exif license attribute from every image in a directory
 
 ---
 
